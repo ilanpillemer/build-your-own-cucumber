@@ -5,11 +5,15 @@ import gherkin.pickles.Pickle;
 import java.util.List;
 
 public class Runner {
-    public Runner(Glue glue) {
 
+    Glue glue;
+    
+    public Runner(Glue glue) {
+	this.glue = glue;
     }
 
     public Report execute(List<Pickle> pickles) {
-        return new Report();
+	TestCase t = glue.createTestCase(pickles);
+        return new Report(t);
     }
 }
