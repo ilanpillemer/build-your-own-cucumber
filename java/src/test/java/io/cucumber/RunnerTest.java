@@ -70,31 +70,5 @@ public class RunnerTest {
         assertEquals(1, report.testCasesPassed.size());
     }
 
-     @Test
-    public void itRecordsResults_failed() {
-        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
-        Compiler compiler = new Compiler();
 
-        String feature = String.join("\n",
-                "Feature:",
-                "  Scenario:",
-                "    Given a failing step"
-                );
-        GherkinDocument gherkinDocument = parser.parse(feature);
-
-        List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
-
-        List<StepDefinition> stepDefinitions;
-        stepDefinitions = Arrays.asList(
-                new StepDefinition(Pattern.compile("fail"), () -> {})
-        );
-
-        Glue glue = new Glue(stepDefinitions);
-        Runner runner = new Runner(glue);
-
-        Report report = runner.execute(pickles);
-	
-        assertEquals(1, report.testCases.size());
-        assertEquals(0, report.testCasesPassed.size());
-    }
 }
