@@ -2,3 +2,6 @@
 /java/.classpath
 /java/.project
 java/.settings
+java/.metadata/
+java/RemoteSystemsTempFiles/
+java/eclimd.log
