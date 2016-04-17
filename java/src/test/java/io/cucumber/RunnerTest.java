@@ -9,6 +9,7 @@ import gherkin.pickles.Pickle;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -18,13 +19,12 @@ import static org.junit.Assert.assertEquals;
 
 public class RunnerTest {
 
-    static List<StepDefinition> stepDefinitions;
+    static List<StepDefinition> stepDefinitions = new ArrayList<StepDefinition>();
     
     @BeforeClass
     public static void magic_step_definitions() {
-        stepDefinitions = Arrays.asList(
-                new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {})
-        );
+        stepDefinitions.add( new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {}));
+        stepDefinitions.add( new StepDefinition(Pattern.compile("^.*fail.*$")  , () -> {}));
     }
 
 
@@ -35,10 +35,10 @@ public class RunnerTest {
         Compiler compiler = new Compiler();
 
         String feature = String.join("\n",
-                "Feature:",
-                "  Scenario:",
-                "    Given a passing step"
-                );
+				     "Feature:",
+				     "  Scenario:",
+				     "    Given a passing step"
+				     );
         GherkinDocument gherkinDocument = parser.parse(feature);
         List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
 
@@ -52,16 +52,16 @@ public class RunnerTest {
         assertEquals(1, report.testCasesPassed.size());
     }
 
-        @Test
+    @Test
     public void cukes_sees_0_of_1_no_passing_tests_cases() {
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         Compiler compiler = new Compiler();
 
         String feature = String.join("\n",
-                "Feature:",
-                "  Scenario:",
-                "    Given an undefined step"
-                );
+				     "Feature:",
+				     "  Scenario:",
+				     "    Given an undefined step"
+				     );
         GherkinDocument gherkinDocument = parser.parse(feature);
 
         List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");

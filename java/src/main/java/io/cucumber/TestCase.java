@@ -19,16 +19,14 @@ public class TestCase {
     boolean hasPassed() {
 	for (PickleStep ps : pickle.getSteps()) {
 	    for (StepDefinition s : stepDefinitions) {
-		if (s.GetStep(ps)==null) {
-		    return false;
+		if (s.GetStep(ps)!=null) {
+		    return true;
 		} else {
 		    // la dee dah
 		}
-
 	    }
-	    
 	}
-	return true;
+	return false;
     }
 
 }
