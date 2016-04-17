@@ -8,24 +8,23 @@ import java.util.List;
 
 public class TestCase {
     private List<StepDefinition> stepDefinitions;
-    private List<Pickle> pickles;
+    private Pickle pickle;
 
-    public TestCase(List<Pickle> pickles, List<StepDefinition> stepDefinitions) {
-	this.pickles = pickles;
+    public TestCase(Pickle pickle, List<StepDefinition> stepDefinitions) {
+	this.pickle = pickle;
 	this.stepDefinitions = stepDefinitions;
     }
 
     int i = 0;
     boolean hasPassed() {
-	for (Pickle p : pickles) {
-	    for (PickleStep ps : p.getSteps()) {
-		for (StepDefinition s : stepDefinitions) {
-		    if (s.GetStep(ps)==null) {
-			return false;
-		    } else {
-			// la dee dah
-		    }
+	for (PickleStep ps : pickle.getSteps()) {
+	    for (StepDefinition s : stepDefinitions) {
+		if (s.GetStep(ps)==null) {
+		    return false;
+		} else {
+		    // la dee dah
 		}
+
 	    }
 	    
 	}

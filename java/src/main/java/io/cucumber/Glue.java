@@ -11,7 +11,7 @@ public class Glue {
 	this.stepDefinitions = stepDefinitions;
     }
 
-    TestCase createTestCase(List<Pickle> pickles) {
-	return new TestCase(pickles,stepDefinitions);
+    TestCase createTestCase(Pickle pickle) {
+	return new TestCase(pickle,stepDefinitions);
     }
 }
