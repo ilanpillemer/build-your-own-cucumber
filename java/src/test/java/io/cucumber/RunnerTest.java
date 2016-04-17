@@ -24,7 +24,7 @@ public class RunnerTest {
     @BeforeClass
     public static void magic_step_definitions() {
         stepDefinitions.add( new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {}));
-        stepDefinitions.add( new StepDefinition(Pattern.compile("^.*fail.*$")  , () -> {}));
+        stepDefinitions.add( new StepDefinition(Pattern.compile("^.*fail.*$")  , () -> { throw new RuntimeException(); }));
     }
 
 
@@ -53,7 +53,7 @@ public class RunnerTest {
     }
 
     @Test
-    public void cukes_sees_0_of_1_no_passing_tests_cases() {
+    public void cukes_sees_0_of_1_udefined_tests_cases() {
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         Compiler compiler = new Compiler();
 
@@ -61,6 +61,29 @@ public class RunnerTest {
 				     "Feature:",
 				     "  Scenario:",
 				     "    Given an undefined step"
+				     );
+        GherkinDocument gherkinDocument = parser.parse(feature);
+
+        List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
+
+        Glue glue = new Glue(stepDefinitions);
+        Runner runner = new Runner(glue);
+
+        Report report = runner.execute(pickles);
+
+	assertEquals(1, report.testCases.size());
+        assertEquals(0, report.testCasesPassed.size());
+    }
+
+    @Test
+    public void cukes_sees_0_of_1_no_failing_tests_cases() {
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        Compiler compiler = new Compiler();
+
+        String feature = String.join("\n",
+				     "Feature:",
+				     "  Scenario:",
+				     "    Given a failing step"
 				     );
         GherkinDocument gherkinDocument = parser.parse(feature);
 
