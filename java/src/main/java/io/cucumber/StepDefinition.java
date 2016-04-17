@@ -8,11 +8,11 @@ import gherkin.pickles.PickleStep;
 public class StepDefinition {
 
     Pattern regex;
-    NoArgBody p1;
+    NoArgBody lamda;
     
-    public StepDefinition(Pattern regex, NoArgBody p1) {
+    public StepDefinition(Pattern regex, NoArgBody lamda) {
 	this.regex=regex;
-	this.p1=p1;
+	this.lamda=lamda;
     }
 
     @FunctionalInterface
@@ -23,7 +23,7 @@ public class StepDefinition {
     public NoArgBody GetStep(PickleStep pickleStep) {
 	Matcher m = regex.matcher(pickleStep.getText());
 	if (m.matches()) {
-	    return p1;
+	    return lamda;
 	}
 	return null;
 	
