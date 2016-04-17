@@ -98,5 +98,29 @@ public class RunnerTest {
         assertEquals(0, report.testCasesPassed.size());
     }
 
+     @Test
+    public void cukes_sees_0_of_1_ambiguous_test_cases() {
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        Compiler compiler = new Compiler();
+
+        String feature = String.join("\n",
+				     "Feature:",
+				     "  Scenario:",
+				     "    Given a passing step"
+				     );
+        GherkinDocument gherkinDocument = parser.parse(feature);
+        List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
+
+	// add an second step defition that makes it ambiguous
+	stepDefinitions.add( new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {}));
+	
+        Glue glue = new Glue(stepDefinitions);
+        Runner runner = new Runner(glue);
+
+        Report report = runner.execute(pickles);
+
+        assertEquals(1, report.testCases.size());
+        assertEquals(0, report.testCasesPassed.size());
+    }
 
 }

@@ -17,7 +17,7 @@ public class TestCase {
 	this.stepDefinitions = stepDefinitions;
     }
 
-    int i = 0;
+    int matching_count = 0;
     boolean hasPassed() {
 	for (PickleStep ps : pickle.getSteps()) {
 	    for (StepDefinition s : stepDefinitions) {
@@ -25,16 +25,16 @@ public class TestCase {
 		if (lamda!=null) {  
 		    try {
 			lamda.call();
-			return true;
+			matching_count++;
 		    } catch (RuntimeException e) {
-			// laa dee dah
+			return false;
 		    }
 		} else {
 		    // la dee dah
 		}
 	    }
 	}
-	return false;
+	return (matching_count==1);
     }
 
 }
