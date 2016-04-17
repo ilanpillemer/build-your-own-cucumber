@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class RunnerTest {
 
     @Test
-    public void itRecordsResults0() {
+    public void cukes_sees_1_of_1_passing_test_cases() {
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         Compiler compiler = new Compiler();
 
@@ -27,7 +27,6 @@ public class RunnerTest {
                 "    Given a passing step"
                 );
         GherkinDocument gherkinDocument = parser.parse(feature);
-
         List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
 
         List<StepDefinition> stepDefinitions;
@@ -41,10 +40,11 @@ public class RunnerTest {
         Report report = runner.execute(pickles);
 
         assertEquals(1, report.testCases.size());
+        assertEquals(1, report.testCasesPassed.size());
     }
 
-    @Test
-    public void itRecordsResults() {
+        @Test
+    public void cukes_sees_0_of_1_failing_test_cases() {
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         Compiler compiler = new Compiler();
 
@@ -67,7 +67,8 @@ public class RunnerTest {
 
         Report report = runner.execute(pickles);
 
-        assertEquals(1, report.testCasesPassed.size());
+	assertEquals(1, report.testCases.size());
+        assertEquals(0, report.testCasesPassed.size());
     }
 
 
