@@ -111,7 +111,7 @@ public class RunnerTest {
         GherkinDocument gherkinDocument = parser.parse(feature);
         List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
 
-	// add an second step defition that makes it ambiguous
+	// add an second step definition that makes it ambiguous
 	stepDefinitions.add( new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {}));
 	
         Glue glue = new Glue(stepDefinitions);
