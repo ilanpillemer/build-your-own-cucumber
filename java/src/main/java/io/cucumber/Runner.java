@@ -1,8 +1,8 @@
 package io.cucumber;
 
-import gherkin.pickles.Pickle;
-
 import java.util.List;
+
+import gherkin.pickles.Pickle;
 
 public class Runner {
 

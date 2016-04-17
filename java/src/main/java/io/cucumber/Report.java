@@ -9,7 +9,9 @@ public class Report {
 
     public Report(TestCase t) {
 	testCases.add(t);
-	testCasesPassed.add(t);
+	if (t.hasPassed()) {
+	    testCasesPassed.add(t);
+	}
     }
 
 }

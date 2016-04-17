@@ -31,7 +31,7 @@ public class RunnerTest {
 
         List<StepDefinition> stepDefinitions;
         stepDefinitions = Arrays.asList(
-                new StepDefinition(Pattern.compile("pass"), () -> {})
+                new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {})
         );
 
         Glue glue = new Glue(stepDefinitions);
@@ -44,14 +44,14 @@ public class RunnerTest {
     }
 
         @Test
-    public void cukes_sees_0_of_1_failing_test_cases() {
+    public void cukes_sees_0_of_1_no_passing_tests_cases() {
         Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         Compiler compiler = new Compiler();
 
         String feature = String.join("\n",
                 "Feature:",
                 "  Scenario:",
-                "    Given a passing step"
+                "    Given an undefined step"
                 );
         GherkinDocument gherkinDocument = parser.parse(feature);
 
