@@ -13,7 +13,9 @@ public class Runner {
     }
 
     public Report execute(List<Pickle> pickles) {
-	TestCase t = glue.createTestCase(pickles.get(0));
-        return new Report(t);
+	Report r = new Report();
+	pickles
+	    .forEach(pickle -> r.addTestCase(glue.createTestCase(pickle)));
+        return r;
     }
 }
