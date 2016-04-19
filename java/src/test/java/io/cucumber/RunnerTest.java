@@ -6,6 +6,7 @@ import gherkin.ast.GherkinDocument;
 import gherkin.pickles.Compiler;
 import gherkin.pickles.Pickle;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -19,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 
 public class RunnerTest {
 
-    static List<StepDefinition> stepDefinitions = new ArrayList<StepDefinition>();
+    List<StepDefinition> stepDefinitions = new ArrayList<StepDefinition>();
     
-    @BeforeClass
-    public static void magic_step_definitions() {
+    @Before
+    public void magic_step_definitions() {
         stepDefinitions.add( new StepDefinition(Pattern.compile("^.*pass.*$")  , () -> {}));
         stepDefinitions.add( new StepDefinition(Pattern.compile("^.*fail.*$")  , () -> { throw new RuntimeException(); }));
     }
@@ -85,6 +86,41 @@ public class RunnerTest {
 
         assertEquals(5, report.testCases.size());
         assertEquals(5, report.testCasesPassed.size());
+    }
+
+      @Test
+    public void cukes_sees_2_of_5_passing_test_cases() {
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        Compiler compiler = new Compiler();
+
+        String feature = String.join("\n",
+				     "Feature:",
+				     "  Scenario:",
+				     "    Given a passing step",
+				     "",
+				     "  Scenario:",
+				     "    Given a failing step",
+				     "",
+				     "  Scenario:",
+				     "    Given a undefined step",
+				     "",
+				     "  Scenario:",
+				     "    Given a failing step",
+				     "",
+				     "  Scenario:",
+				     "    Given a passing step"				     
+				     );
+        GherkinDocument gherkinDocument = parser.parse(feature);
+        List<Pickle> pickles = compiler.compile(gherkinDocument, "path/to/the.feature");
+
+  
+        Glue glue = new Glue(stepDefinitions);
+        Runner runner = new Runner(glue);
+
+        Report report = runner.execute(pickles);
+
+        assertEquals(5, report.testCases.size());
+        assertEquals(2, report.testCasesPassed.size());
     }
 
     @Test
