@@ -19,22 +19,23 @@ public class TestCase {
 
     int matching_count = 0;
     boolean hasPassed() {
+
+	// each step should map to one and only one lamda
+	// if there is more than one lamda there are ambiguous step definitions
+	// if there are no lamdas the step definition is undefined
 	for (PickleStep ps : pickle.getSteps()) {
 	    for (StepDefinition s : stepDefinitions) {
-		NoArgBody lamda = s.GetStep(ps);
-		if (lamda!=null) {  
+		if (s.matches(ps)) {
 		    try {
-			lamda.call();
+			s.getLamda().call();
 			matching_count++;
 		    } catch (RuntimeException e) {
 			return false;
 		    }
-		} else {
-		    // la dee dah
 		}
 	    }
 	}
 	return (matching_count==1);
+	    
     }
-
 }

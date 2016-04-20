@@ -20,12 +20,11 @@ public class StepDefinition {
         void call();
     }
 
-    public NoArgBody GetStep(PickleStep pickleStep) {
-	Matcher m = regex.matcher(pickleStep.getText());
-	if (m.matches()) {
-	    return lamda;
-	}
-	return null;
-	
+    public NoArgBody getLamda() {
+	return lamda;
+    }
+
+    public boolean matches(PickleStep pickleStep) {
+	return regex.matcher(pickleStep.getText()).matches();
     }
 }
