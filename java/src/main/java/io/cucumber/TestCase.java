@@ -16,13 +16,10 @@ public class TestCase {
 	this.glueySteps = glueySteps;
     }
 
-    int matching_count = 0;
-    boolean hasPassed() {
-
-	// each step should map to one and only one lamda
-	// if there is more than one lamda there are ambiguous step definitions
-	// if there are no lamdas the step definition is undefined
-
+    // each step should map to one and only one lamda
+    // if there is more than one lamda there are ambiguous step definitions
+    // if there are no lamdas the step definition is undefined
+    public boolean hasPassed() {
 	for (PickleStep ps : pickle.getSteps()) {
 	    if (glueySteps.get(ps).size() != 1) return false; 
 	    try {
@@ -32,6 +29,5 @@ public class TestCase {
 	    }
 	}
 	return true;
-	    
     }
 }
