@@ -11,7 +11,6 @@ public class Report {
 
     }
 	
-
     public void addTestCase(TestCase t) {
 	testCases.add(t);
 	if (t.hasPassed()) {

@@ -1,6 +1,5 @@
 package io.cucumber;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gherkin.pickles.PickleStep;
@@ -27,4 +26,5 @@ public class StepDefinition {
     public boolean matches(PickleStep pickleStep) {
 	return regex.matcher(pickleStep.getText()).matches();
     }
+
 }

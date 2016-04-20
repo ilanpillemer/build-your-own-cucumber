@@ -3,18 +3,17 @@ package io.cucumber;
 import gherkin.pickles.Pickle;
 import gherkin.pickles.PickleStep;
 
-import io.cucumber.StepDefinition.NoArgBody;
-
 import java.util.List;
+import java.util.Map;
 
 
 public class TestCase {
-    private List<StepDefinition> stepDefinitions;
+    private Map<PickleStep,List<StepDefinition>> glueySteps;
     private Pickle pickle;
 
-    public TestCase(Pickle pickle, List<StepDefinition> stepDefinitions) {
+    public TestCase(Pickle pickle, Map<PickleStep, List<StepDefinition>> glueySteps) {
 	this.pickle = pickle;
-	this.stepDefinitions = stepDefinitions;
+	this.glueySteps = glueySteps;
     }
 
     int matching_count = 0;
@@ -23,19 +22,16 @@ public class TestCase {
 	// each step should map to one and only one lamda
 	// if there is more than one lamda there are ambiguous step definitions
 	// if there are no lamdas the step definition is undefined
+
 	for (PickleStep ps : pickle.getSteps()) {
-	    for (StepDefinition s : stepDefinitions) {
-		if (s.matches(ps)) {
-		    try {
-			s.getLamda().call();
-			matching_count++;
-		    } catch (RuntimeException e) {
-			return false;
-		    }
-		}
+	    if (glueySteps.get(ps).size() != 1) return false; 
+	    try {
+		glueySteps.get(ps).get(0).getLamda().call();
+	    } catch (RuntimeException e) {
+		return false;
 	    }
 	}
-	return (matching_count==1);
+	return true;
 	    
     }
 }

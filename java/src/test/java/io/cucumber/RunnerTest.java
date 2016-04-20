@@ -7,11 +7,9 @@ import gherkin.pickles.Compiler;
 import gherkin.pickles.Pickle;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
