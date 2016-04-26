@@ -6,7 +6,7 @@ import gherkin.pickles.Pickle;
 
 public class Runner {
 
-    Glue glue;
+    private final Glue glue;
     
     public Runner(Glue glue) {
 	this.glue = glue;

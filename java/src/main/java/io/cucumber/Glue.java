@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 
 
 public class Glue {
-    List<StepDefinition> stepDefinitions;
+    private final List<StepDefinition> stepDefinitions;
     
     public Glue(List<StepDefinition> stepDefinitions) {
 	this.stepDefinitions = stepDefinitions;

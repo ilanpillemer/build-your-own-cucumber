@@ -6,8 +6,8 @@ import gherkin.pickles.PickleStep;
 
 public class StepDefinition {
 
-    Pattern regex;
-    NoArgBody lamda;
+    private final Pattern regex;
+    private final NoArgBody lamda;
     
     public StepDefinition(Pattern regex, NoArgBody lamda) {
 	this.regex=regex;
